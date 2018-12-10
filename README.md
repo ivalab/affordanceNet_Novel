@@ -126,3 +126,8 @@ This repo used a lot of source code from [Faster-RCNN](https://github.com/rbgirs
 ### Contact
 If you have any questions or comments, please send us an email: `thanh-toan.do@adelaide.edu.au` and `anh.nguyen@iit.it`
 
+
+### Modifications
+1. [Annotations](https://www.dropbox.com/home/gt/IVAlab/Deep_Learning_Project/data/affordanceNovel/Annotations_objectness) contains xml with `objectness` instead of all objects   
+2. Modify proposal_target_layer.py
+
