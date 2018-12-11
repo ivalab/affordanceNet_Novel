@@ -41,6 +41,8 @@ __C.TRAIN = edict()
 
 __C.TRAIN.MASK_REG = True #segmentation mask regression
 __C.TRAIN.MASK_SIZE = 244 #
+__C.TRAIN.CLASS_NUM = 7 # new parameter for KL divergence, you still need to modify proto txt and VOC loader
+__C.TRAIN.KLdivergence = True
 #########################################
 
 # Scales to use during training (can list multiple scales)
