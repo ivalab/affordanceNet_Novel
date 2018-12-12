@@ -130,6 +130,6 @@ If you have any questions or comments, please send us an email: `thanh-toan.do@a
 ### Modifications
 1. [Annotations](https://www.dropbox.com/home/gt/IVAlab/Deep_Learning_Project/data/affordanceNovel/Annotations_objectness) contains xml with `objectness` instead of all objects, (and corresponding model descriptions for two classes)   
 2. Modify proposal_target_layer.py
-3. to modify affordance number: (1) prototxt: "mask_score" (2) config: __C.TRAIN.CLASS_NUM = 13 (3) proposal_target_layer: label_colors (4) proposal_target_layer: label2dist
+3. to modify affordance number: (1) no prototxt: "mask_score" (2) no config: __C.TRAIN.CLASS_NUM = 13 (3) no proposal_target_layer: label_colors (4) yes proposal_target_layer: label2dist
 
 
