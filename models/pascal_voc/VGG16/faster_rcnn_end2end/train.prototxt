@@ -894,23 +894,138 @@ layer {
   }
 }
 
-
+#### mask as KL divergence on each element
+# Calculate log(Q(i))
 
 layer {
-  name: "loss_mask"
-  type: "SoftmaxWithLoss"
-  #bottom: "mask_score_reshape"
+  name: "prob"
+  type: "Softmax"
   bottom: "mask_score"
-  bottom: "mask_targets" 
-  top: "loss_mask"
-  loss_weight: 3
-  loss_param {
-    ignore_label: -1
-    normalize: true
-    #normalize: false
-  }
-  propagate_down: true  # backprop to prediction
-  propagate_down: false # don't backprop to labels
+  top: "mask_score_softmax"
+  softmax_param {
+    axis: 1
+  }  
 }
+
+layer {
+  name: "log"
+  type: "Log"
+  bottom: "mask_score_softmax"
+  top: "log"
+}
+
+# Elementwise Multiplication of P(i) and log(Q(i))
+
+layer {
+  name: "mult1"
+  type: "Eltwise"
+  bottom: "log"
+  bottom: "mask_targets"  
+  top: "mult1"
+  eltwise_param {
+    operation: PROD
+  }  
+}
+
+
+#layer {
+#  name: "cross_entropy1"
+#  type: "Eltwise"
+#  bottom: "log"
+#  bottom: "mask_targets"  
+#  top: "cross_entropy1"
+#  eltwise_param {
+#    operation: SUM
+#    coeff: 0
+#    coeff: 1
+#  }  
+#}
+
+
+#layer {
+#  name: "negative_target"
+#  bottom: "mask_targets"
+#  top: "negative_mask_targets"
+#  type: "Power"
+#  power_param {
+#    power: 1
+#    scale: -1.00
+#    shift: 0
+#  }
+#}
+
+
+#layer {
+#  name: "pool_mult1"
+#  type: "Pooling"
+#  bottom: "mult1"
+#  top: "pool_mult1"
+#  pooling_param {
+#    pool: MAX
+#    kernel_size: 244 # pool over a 3x3 region
+#    stride: 2        # step two pixels (in the bottom blob) between pooling regions
+#  }
+#}
+
+
+# Multiply -1 
+layer {
+  name: "cross_entropy"
+  bottom: "mult1"
+  top: "cross_entropy"
+  type: "Power"
+  power_param {
+    power: 1
+    scale: -1.00
+    shift: 0
+  }
+}
+
+
+#Sum n*c*h*w to n*1*h*w
+layer {
+  name: "ce_sum"
+  type: "Convolution"
+  bottom: "cross_entropy"
+  top: "cross_entropy_sum"
+  param { lr_mult: 0.0 decay_mult: 0.0}
+  convolution_param {
+    num_output: 1
+    bias_term: false 
+    kernel_size: 1
+    weight_filler { 
+        type: 'constant' 
+        value: 1 
+    } 
+  }
+}
+
+# Multiply -1 
+#layer {
+#  name: "cross_entropy2"
+#  bottom: "cross_entropy_sum"
+#  top: "cross_entropy2"
+#  type: "Power"
+#  power_param {
+#    power: 1
+#    scale: 1.00
+#    shift: 0
+#  }
+#}
+
+
+# Loss layer
+layer {
+  name: "ce_mean"
+  type: "Reduction"
+  bottom: "cross_entropy_sum"
+  top: "cross_entropy_mean"
+  loss_weight: 1
+  reduction_param{
+       axis: 0
+       operation: MEAN
+  }
+}
+
 
 

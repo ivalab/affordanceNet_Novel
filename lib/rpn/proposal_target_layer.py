@@ -31,9 +31,12 @@ c7 = [184,134,11] #ok
 c8 = [0,153,153] #ok
 c9 = [0,134,141] #ok
 c10 = [184,0,141] #ok
+c11 = [184,184,141] #ok
+c12 = [184,141,141] #ok
+c13 = [184,200,141] #ok
 
 
-label_colours = np.array([background, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10])    
+label_colours = np.array([background, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13])    
 
 
 out_verbose = 0
@@ -64,10 +67,44 @@ class ProposalTargetLayer(caffe.Layer):
             ###################### mask targets###############
             #top[5].reshape(1, self._num_classes * cfg.TRAIN.MASK_SIZE * cfg.TRAIN.MASK_SIZE) #cfg.TRAIN.MASK_SIZE = 14 or 28
             #top[5].reshape(1, 1 * cfg.TRAIN.MASK_SIZE * cfg.TRAIN.MASK_SIZE) #Class-agnostic mask.
-            top[5].reshape(1, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE) #segmentation mask for positive rois
+            if cfg.TRAIN.KLdivergence:
+                top[5].reshape(1, cfg.TRAIN.CLASS_NUM + 1, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE)
+            else:
+                top[5].reshape(1, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE) #segmentation mask for positive rois
             ####incase output rois_pos
             top[6].reshape(1, 5) #positive rois for mask branch
             ##################################################
+
+    def singleLabel2dist(self, roi_mask):
+        # this function transform single-channel affordance label to multi-channel distribution based on class_label for KL divergence
+        #                           0    1    2    3    4    5    6    7
+        label2dist={-1:np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]), #if -1 then no ground truth, log(1) = 0 so no loss
+                     0:np.array([ 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+                     1:np.array([ 0.0, 0.6, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]),
+                     2:np.array([ 0.0, 0.0, 0.6, 0.1, 0.0, 0.0, 0.3, 0.0]),
+                     3:np.array([ 0.0, 0.0, 0.0, 0.6, 0.3, 0.0, 0.1, 0.0]),
+                     4:np.array([ 0.0, 0.0, 0.0, 0.4, 0.6, 0.0, 0.0, 0.0]),
+                     5:np.array([ 0.0, 0.4, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0]),
+                     6:np.array([ 0.0, 0.0, 0.0, 0.3, 0.1, 0.0, 0.6, 0.0]),
+                     7:np.array([ 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.6]),
+                     8:np.array([ 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+                     9:np.array([ 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4]),
+                    10:np.array([ 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
+                    11:np.array([ 0.0, 0.0, 0.0, 0.3, 0.6, 0.0, 0.1, 0.0]),
+                    12:np.array([ 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.6, 0.0]),
+                    13:np.array([ 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6]),}
+
+        roi_mask_kl = -1 * np.ones((cfg.TRAIN.CLASS_NUM + 1, roi_mask.shape[0], roi_mask.shape[1]), dtype=np.float32)
+        for key, value in label2dist.iteritems():
+            roi_mask_kl[:,np.where(roi_mask == key)[0],np.where(roi_mask == key)[1]] = value.reshape(cfg.TRAIN.CLASS_NUM + 1,-1)
+
+        if False:
+            roi_mask_kl = 10*roi_mask_kl
+            color_roi_mask = label_colours.take(roi_mask_kl[4,:,:].astype('int8'), axis=0).astype('int8')
+            cv2.imshow('roi_mask', color_roi_mask)
+            cv2.waitKey(0)
+
+        return roi_mask_kl
 
     def forward(self, bottom, top):
         
@@ -145,7 +182,10 @@ class ProposalTargetLayer(caffe.Layer):
 
             #mask_targets = np.zeros((num_roi, cfg.TRAIN.MASK_SIZE * cfg.TRAIN.MASK_SIZE), dtype=np.float32)
             #mask_targets = -1*np.ones((num_roi, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE), dtype=np.float32)
-            mask_targets = -1 * np.ones((num_roi, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE), dtype=np.float32)
+            if cfg.TRAIN.KLdivergence:
+                mask_targets = -1 * np.ones((num_roi, cfg.TRAIN.CLASS_NUM + 1, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE), dtype=np.float32)
+            else:
+                mask_targets = -1 * np.ones((num_roi, cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE), dtype=np.float32)
             im_info = bottom[2].data
             seg_mask_inds = bottom[3].data
             flipped = bottom[4].data
@@ -359,6 +399,7 @@ class ProposalTargetLayer(caffe.Layer):
                     
                     roi_mask = _convert_mask_to_original_ids_manual(roi_mask, original_uni_ids)
                                 
+                    #if True:
                     if verbose_showim:
                         #color_roi_mask = cv2.cvtColor((roi_mask*255), cv2.cv.CV_GRAY2RGB)
                         color_roi_mask = label_colours.take(roi_mask.astype('int8'), axis=0).astype('int8')
@@ -368,8 +409,11 @@ class ProposalTargetLayer(caffe.Layer):
                 else:
                     roi_mask = -1 * np.ones((cfg.TRAIN.MASK_SIZE, cfg.TRAIN.MASK_SIZE), dtype=np.float32) # set roi_mask to -1 
                
-                
-                mask_targets[ix, :, :] = roi_mask
+                if cfg.TRAIN.KLdivergence:
+                    roi_mask_kl = self.singleLabel2dist(roi_mask)
+                    mask_targets[ix, :, :, :] = roi_mask_kl
+                else:
+                    mask_targets[ix, :, :] = roi_mask
 
             
         if DEBUG:
@@ -419,6 +463,9 @@ class ProposalTargetLayer(caffe.Layer):
 #             ################### Toan mask target##########################
             top[5].reshape(*mask_targets.shape)
             top[5].data[...] = mask_targets
+            
+            #print np.min(mask_targets)
+            #assert np.min(mask_targets) >= 0
             ####incase output rois_pos
             top[6].reshape(*rois_pos.shape)
             top[6].data[...] = rois_pos
