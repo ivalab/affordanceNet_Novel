@@ -153,3 +153,26 @@ python camera_demo_arucoTag_kinect.py
 sudo sevice smbd restart
 ```
 
+#### on LANDAN PC
+1. run Handy
+```
+cd handy_ws
+...
+roslaunch handy_experiment pickplace_pddl.launch
+```
+2. run camera
+```
+roslaunch freenect_launch freenect.launch depth_registration:=true
+```
+3. run PDDL
+```
+cd affordance-net/scripts
+python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py --sim
+```
+4. share folder
+```
+sudo mount -t cifs //143.215.144.24/data_shared /home/landan/data_shared -o username=fujenchu,password=fujenchu
+```
+
+
+
