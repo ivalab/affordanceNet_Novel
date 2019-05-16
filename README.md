@@ -132,4 +132,24 @@ If you have any questions or comments, please send us an email: `thanh-toan.do@a
 2. Modify proposal_target_layer.py
 3. to modify affordance number: (1) no prototxt: "mask_score" (2) no config: __C.TRAIN.CLASS_NUM = 13 (3) no proposal_target_layer: label_colors (4) yes proposal_target_layer: label2dist
 
+### Physical Grasping with PDDL
+
+#### on Main PC
+1. run objectness affordance saver
+```
+cd projects/affordanceSeg/affordance-net-da/tools
+python demo_img_socket_noprocess_firstAff_kinect_LANDAN.py
+```
+if it takes long time to load kinect, run this first
+```
+cd projects/robotArm/aruco_tag/aruco_tag_saver
+python camera_demo_arucoTag_kinect.py
+```
+
+2. move saved data to `/media/fujenchu/home3/data_shared/affordance/landan/AFFORDANCE` from `/media/fujenchu/home3/data_shared/affordance/landan/`
+
+3. share folder
+```
+sudo sevice smbd restart
+```
 
