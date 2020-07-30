@@ -1,75 +1,69 @@
-## [AffordanceNet: An End-to-End Deep Learning Approach for Object Affordance Detection](https://arxiv.org/pdf/1709.07326.pdf)
-By Thanh-Toan Do\*, Anh Nguyen\*, Ian Reid (\* equal contribution)
+# AffordanceNet_DA
+This is the implementation of our RA-L work 'Toward Affordance Detection and Ranking on Novel Objects for Real-world Robotic Manipulation'. This paper presents a framework to detect and rank affordances of novel objects to assist with robotic manipulation tasks. The original arxiv paper can be found [here](https://ieeexplore.ieee.org/abstract/document/8770077).
 
-![affordance-net](https://raw.githubusercontent.com/nqanh/affordance-net/master/tools/temp_output/iit_aff_dataset.jpg "affordance-net")
+<p align="center">
+<img src="https://github.com/ivalab/affordanceNet_DA/blob/damask/fig/overlap_fewdigit.png" alt="drawing" width="300"/>
+</p>
 
-### Contents
-1. [Requirements](#requirements)
-2. [Installation](#installation)
-3. [Demo](#demo)
-4. [Training](#training)
-5. [Notes](#notes)
+If you find it helpful for your research, please consider citing:
 
+    @inproceedings{chu2019toward,
+      title = {Learning Affordance Segmentation for Real-world Robotic Manipulation via Synthetic Images},
+      author = {Chu, Fu-Jen and Xu, Ruinian and Seguin, Landan and Vela, Patricio A},
+      journal = {IEEE Robotics and Automation Letters},
+      year = {2019},
+      volume={4},
+      number={4},
+      pages={4070--4077},    
+      DOI = {10.1109/LRA.2019.2930364},
+      ISSN = {4070-4077},
+      month = {Oct}
+    }
+
+------------------------------------
 
 ### Requirements
 
-1. Caffe
+1. Caffe:
 	- Install Caffe: [Caffe installation instructions](http://caffe.berkeleyvision.org/installation.html).
 	- Caffe must be built with support for Python layers.
+	- You will need the modified caffe layer in this repository. Please make sure you clone from here.
 
-2. Hardware
-	- To train a full AffordanceNet, you'll need a GPU with ~11GB (e.g. Titan, K20, K40, Tesla, ...).
-	- To test a full AffordanceNet, you'll need ~6GB GPU.
-
-3. [Optional] For robotic demo
-	- [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu)
-	- [rospy](http://wiki.ros.org/rospy)
-	- [OpenNI](https://github.com/OpenNI/OpenNI)
-	- [PrimeSensor](https://github.com/PrimeSense/Sensor)
+2. Specifications:
+	- CuDNN-5.1.10
+	- CUDA-8.0
 
 
-### Installation
-
-1. Clone the AffordanceNet repository into your `$AffordanceNet_ROOT` folder.
-	
-	
-2. Build `Caffe` and `pycaffe`:
-	- `cd $AffordanceNet_ROOT/caffe-affordance-net`
-    - `# Now follow the Caffe installation instructions: http://caffe.berkeleyvision.org/installation.html`
-    - `# If you're experienced with Caffe and have all of the requirements installed and your Makefile.config in place, then simply do:`
-    - `make -j8 && make pycaffe`
-     
-
-3. Build the Cython modules:
-    - `cd $AffordanceNet_ROOT/lib`
-    - `make`
-
-
-4. Download pretrained weights ([Google Drive](https://drive.google.com/file/d/0Bx3H_TbKFPCjNlMtSGJlQ0dxVzQ/view?usp=sharing), [One Drive](https://studenthcmusedu-my.sharepoint.com/:u:/g/personal/nqanh_mso_hcmus_edu_vn/ETD6q64-L1lCgtNEryA42NwBNM9vNoyE8QyxAYzgt8NqnA?e=uRCxPg)). This weight is trained on the training set of the [IIT-AFF dataset](https://sites.google.com/site/iitaffdataset/):
-    - Extract the file you downloaded to `$AffordanceNet_ROOT`
-    - Make sure you have the caffemodel file like this: `'$AffordanceNet_ROOT/pretrained/AffordanceNet_200K.caffemodel`
-
-	
 ### Demo
 
-After successfully completing installation, you'll be ready to run the demo. 
+1. Clone the AffordanceNet_DA repository into your `$AffordanceNet_Novel_ROOT` folder
+```
+git clone https://github.com/ivalab/affordanceNet_Novel.git
+cd affordanceNet_Novel
+```
 
-0. Export pycaffe path:
-	- `export PYTHONPATH=$AffordanceNet_ROOT/caffe-affordance-net/python:$PYTHONPATH`
+2. Export pycaffe path
+```
+`export PYTHONPATH=$AffordanceNet_Novel_ROOT/caffe-affordance-net/python:$PYTHONPATH`
+```
 
-1. Demo on static images:
-	- `cd $AffordanceNet_ROOT/tools`
-	- `python demo_img.py`
-	- You should see the detected objects and their affordances.
-	
-2. (Optional) Demo on depth camera (such as Asus Xtion):
-	- With AffordanceNet and the depth camera, you can easily select the interested object and its affordances for robotic applications such as grasping, pouring, etc.
-	- First, launch your depth camera with ROS, OpenNI, etc.
-	- `cd $AffordanceNet_ROOT/tools`
-	- `python demo_asus.py`
-	- You may want to change the object id and/or affordance id (line `380`, `381` in `demo_asus.py`). Currently, we select the `bottle` and its `grasp` affordance.
-	- The 3D grasp pose can be visualized with [rviz](http://wiki.ros.org/rviz). You should see something like this: 
-	![affordance-net-asus](https://raw.githubusercontent.com/nqanh/affordance-net/master/tools/temp_output/asus_affordance_net_demo.jpg "affordance-net-asus")
+2. Build Cython modules
+```
+cd $AffordanceNet_Novel_ROOT/lib
+make clean
+make
+cd ..
+```
+
+4. Download pretrained models
+    - trained model for DEMO on [dropbox](https://www.dropbox.com/s/u28kllclmv8rb6f/vgg16_faster_rcnn_iter_70000.caffemodel?dl=0) 
+    - put under `./pretrained/`
+
+5. Demo
+```
+cd $AffordanceNet_Novel_ROOT/tools
+python demo_img.py
+
 	
 ### Training
 
