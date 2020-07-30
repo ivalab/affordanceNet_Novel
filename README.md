@@ -27,7 +27,6 @@ If you find it helpful for your research, please consider citing:
 1. Caffe:
 	- Install Caffe: [Caffe installation instructions](http://caffe.berkeleyvision.org/installation.html).
 	- Caffe must be built with support for Python layers.
-	- You will need the modified caffe layer in this repository. Please make sure you clone from here.
 
 2. Specifications:
 	- CuDNN-5.1.10
