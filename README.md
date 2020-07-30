@@ -56,7 +56,7 @@ cd ..
 ```
 
 4. Download pretrained models
-    - trained model for DEMO on [dropbox](https://www.dropbox.com/s/2ofgc3n0jp062ij/vgg16_faster_rcnn_iter_192000.caffemodel?dl=0) 
+    - trained model for DEMO on [dropbox](https://www.dropbox.com/s/34v4pps8ug6s7x1/vgg16_faster_rcnn_iter_151000.caffemodel?dl=0) 
     - put under `./pretrained/`
 
 5. Demo
@@ -64,52 +64,21 @@ cd ..
 cd $AffordanceNet_Novel_ROOT/tools
 python demo_img_kldivergence.py
 ```
-adjust `RANK` to be 1 or 2 or 3 
+you can adjust `RANK` to be 1 or 2 or 3 
 	
 ### Training
+1. We train AffordanceNet_Novel on UMD dataset
+	- You will need synthetic data and real data in Pascal dataset format. 
+	- For your convinience, we did it for you. Just download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data` folder; And download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/cache` folder; Make sure you use the category split on [dropbox](https://www.dropbox.com/sh/bahp8aci3ejpytx/AAAlLD1L31XVuOSPzffNJkHya?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/VOCdevkit2012/VOC2012/ImageSets/Main` folder
+	- You will need the VGG-16 weights pretrained on imagenet. For your convinience, please find it [here](https://www.dropbox.com/s/i4kv0vgn078d1jb/VGG16.v2.caffemodel?dl=0)
+	- Put the weight into `$AffordanceNet_Novel_ROOT/imagenet_models`
+	- If you want novel instance split, please find it [here](https://www.dropbox.com/sh/ya5n61prbc8ftum/AABABu3mqQW438BldvVUYmwoa?dl=0)
 
-1. We train AffordanceNet on [IIT-AFF dataset](https://sites.google.com/site/iitaffdataset/)
-	- We need to format IIT-AFF dataset as in Pascal-VOC dataset for training.
-	- For your convinience, we did it for you. Just download this file ([Google Drive](https://drive.google.com/file/d/0Bx3H_TbKFPCjV09MbkxGX0k1ZEU/view?usp=sharing), [One Drive](https://studenthcmusedu-my.sharepoint.com/:u:/g/personal/nqanh_mso_hcmus_edu_vn/EXQok71Y2kFAmhaabY2TQO8BFIO1AqqH5GcMOfPqgn_q2g?e=7rH3Kd)) and extract it into your `$AffordanceNet_ROOT` folder.
-	- The extracted folder should contain three sub-folders: `$AffordanceNet_ROOT/data/cache`, `$AffordanceNet_ROOT/data/imagenet_models`, and `$AffordanceNet_ROOT/data/VOCdevkit2012` .
-
-2. Train AffordanceNet:
-	- `cd $AffordanceNet_ROOT`
-	- `./experiments/scripts/faster_rcnn_end2end.sh [GPU_ID] [NET] [--set ...]`
-	- e.g.: `./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc`
-	- We use `pascal_voc` alias although we're training using the IIT-AFF dataset.
-
-
-
-### Notes
-1. AffordanceNet vs. Mask-RCNN: AffordanceNet can be considered as a general version of Mask-RCNN when we have multiple classes inside each instance.
-2. The current network achitecture is slightly diffrent from the paper, but it achieves the same accuracy.
-3. Train AffordanceNet on your data:
-	- Format your images as in Pascal-VOC dataset (as in `$AffordanceNet_ROOT/data/VOCdevkit2012` folder).
-	- Prepare the affordance masks (as in `$AffordanceNet_ROOT/data/cache` folder): For each object in the image, we need to create a mask and save as a .sm file. See `$AffordanceNet_ROOT/utils` for details.
-
-
-### Citing AffordanceNet
-
-If you find AffordanceNet useful in your research, please consider citing:
-
-	@inproceedings{AffordanceNet18,
-	  title={AffordanceNet: An End-to-End Deep Learning Approach for Object Affordance Detection},
-	  author={Do, Thanh-Toan and Nguyen, Anh and Reid, Ian},
-	  booktitle={International Conference on Robotics and Automation (ICRA)},
-	  year={2018}
-	}
-
-
-If you use [IIT-AFF dataset](https://sites.google.com/site/iitaffdataset/), please consider citing:
-
-	@inproceedings{Nguyen17,
-	  title={Object-Based Affordances Detection with Convolutional Neural Networks and Dense Conditional Random Fields},
-	  author={Nguyen, Anh and Kanoulas, Dimitrios and Caldwell, Darwin G and Tsagarakis, Nikos G},
-	  booktitle = {IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
-	  year={2017},
-	}
-
+2. Train AffordanceNet_DA:
+```
+cd $AffordanceNet_ROOT
+./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+```
 
 ### License
 MIT License
