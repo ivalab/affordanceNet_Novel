@@ -80,22 +80,7 @@ cd $AffordanceNet_ROOT
 ./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
 ```
 
-### License
-MIT License
 
-### Acknowledgment
-This repo borrows tons of code from
-- [affordanceNet](https://github.com/nqanh/affordance-net) by nqanh
-
-
-### Contact
-If you encounter any questions, please contact me at fujenchu[at]gatech[dot]edu
-
-
-### Modifications
-1. [Annotations](https://www.dropbox.com/home/gt/IVAlab/Deep_Learning_Project/data/affordanceNovel/Annotations_objectness) contains xml with `objectness` instead of all objects, (and corresponding model descriptions for two classes)   
-2. Modify proposal_target_layer.py
-3. to modify affordance number: (1) no prototxt: "mask_score" (2) no config: __C.TRAIN.CLASS_NUM = 13 (3) no proposal_target_layer: label_colors (4) yes proposal_target_layer: label2dist
 
 ### Physical Grasping with PDDL
 
@@ -138,6 +123,24 @@ python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py --sim
 ```
 sudo mount -t cifs //143.215.144.24/data_shared /home/landan/data_shared -o username=fujenchu,password=fujenchu
 ```
+
+
+### License
+MIT License
+
+### Acknowledgment
+This repo borrows tons of code from
+- [affordanceNet](https://github.com/nqanh/affordance-net) by nqanh
+
+
+### Contact
+If you encounter any questions, please contact me at fujenchu[at]gatech[dot]edu
+
+
+### Modifications
+1. [Annotations](https://www.dropbox.com/home/gt/IVAlab/Deep_Learning_Project/data/affordanceNovel/Annotations_objectness) contains xml with `objectness` instead of all objects, (and corresponding model descriptions for two classes)   
+2. Modify proposal_target_layer.py
+3. to modify affordance number: (1) no prototxt: "mask_score" (2) no config: __C.TRAIN.CLASS_NUM = 13 (3) no proposal_target_layer: label_colors (4) yes proposal_target_layer: label2dist
 
 
 
