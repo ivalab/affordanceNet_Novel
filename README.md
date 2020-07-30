@@ -2,7 +2,7 @@
 This is the implementation of our RA-L work 'Toward Affordance Detection and Ranking on Novel Objects for Real-world Robotic Manipulation'. This paper presents a framework to detect and rank affordances of novel objects to assist with robotic manipulation tasks. The original arxiv paper can be found [here](https://ieeexplore.ieee.org/abstract/document/8770077).
 
 <p align="center">
-<img src="https://github.com/ivalab/affordanceNet_DA/blob/damask/fig/overlap_fewdigit.png" alt="drawing" width="300"/>
+<img src="https://github.com/ivalab/affordanceNet_Novel/blob/master/fig/concept.png" alt="drawing" width="300"/>
 </p>
 
 If you find it helpful for your research, please consider citing:
