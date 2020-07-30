@@ -83,16 +83,11 @@ cd $AffordanceNet_ROOT
 
 
 ### Physical Grasping with PDDL
-1. Install [Fast-Downward](https://github.com/danfis/fast-downward) for PDDL.
-2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
-3. Compile [ivaHandy](https://github.com/ivaROS/ivaHandy) in your ros workspace for our Handy robot.
-4. Compile [handy_experiment](https://github.com/ivaROS/handy_experiment) in your ros workspace for experiments.
+1.1. Install [Fast-Downward](https://github.com/danfis/fast-downward) for PDDL.
+1.2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
+1.3. Compile [ivaHandy](https://github.com/ivaROS/ivaHandy) in your ros workspace for our Handy manipulator.
+1.4. Compile [handy_experiment](https://github.com/ivaROS/handy_experiment) in your ros workspace for experiment codebase.
 
-1.1. run objectness affordance saver
-```
-cd projects/affordanceSeg/affordance-net-da/tools
-python demo_img_socket_noprocess_firstAff_kinect_LANDAN.py
-```
 
 
 2.1. run Handy (our robot, you may check our codebase and adjust yours)
