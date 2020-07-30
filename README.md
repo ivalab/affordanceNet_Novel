@@ -84,9 +84,13 @@ cd $AffordanceNet_ROOT
 
 ### Physical Grasping with PDDL
 1.1. Install [Fast-Downward](https://github.com/danfis/fast-downward) for PDDL.
+
 1.2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
+
 1.3. Compile [ivaHandy](https://github.com/ivaROS/ivaHandy) in your ros workspace for our Handy manipulator.
+
 1.4. Compile [handy_experiment](https://github.com/ivaROS/handy_experiment) in your ros workspace for experiment codebase.
+
 
 
 
