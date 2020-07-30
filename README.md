@@ -111,6 +111,7 @@ python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py
 ```
 
 Note you might need to:
+
 (1) modify camera parameters:
 ```
 KINECT_FX = 494.042
