@@ -69,12 +69,12 @@ you can adjust `RANK` to be 1 or 2 or 3
 ### Training
 1. We train AffordanceNet_Novel on UMD dataset
 	- You will need synthetic data and real data in Pascal dataset format. 
-	- For your convinience, we did it for you. Just download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data` folder; And download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/cache` folder; Make sure you use the category split on [dropbox](https://www.dropbox.com/sh/bahp8aci3ejpytx/AAAlLD1L31XVuOSPzffNJkHya?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/VOCdevkit2012/VOC2012/ImageSets/Main` folder
+	- For your convinience, we did it for you. Just download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data` folder; And download this [Annotations](https://www.dropbox.com/home/gt/IVAlab/Deep_Learning_Project/data/affordanceNovel/Annotations_objectness) containing xml with `objectness` instead of all objects to replace `$AffordanceNet_Novel_ROOT/data/VOCdevkit2012/VOC2012/Annotations` ;And download this file on [dropbox](https://www.dropbox.com/s/zfgn3jo8b2zid7a/VOCdevkit2012.tar.gz?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/cache` folder; Make sure you use the category split on [dropbox](https://www.dropbox.com/sh/bahp8aci3ejpytx/AAAlLD1L31XVuOSPzffNJkHya?dl=0) and extract it into your `$AffordanceNet_Novel_ROOT/data/VOCdevkit2012/VOC2012/ImageSets/Main` folder
 	- You will need the VGG-16 weights pretrained on imagenet. For your convinience, please find it [here](https://www.dropbox.com/s/i4kv0vgn078d1jb/VGG16.v2.caffemodel?dl=0)
 	- Put the weight into `$AffordanceNet_Novel_ROOT/imagenet_models`
 	- If you want novel instance split, please find it [here](https://www.dropbox.com/sh/ya5n61prbc8ftum/AABABu3mqQW438BldvVUYmwoa?dl=0)
 
-2. Train AffordanceNet_DA:
+2. Train AffordanceNet_Novel:
 ```
 cd $AffordanceNet_ROOT
 ./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
@@ -83,12 +83,13 @@ cd $AffordanceNet_ROOT
 ### License
 MIT License
 
-### Acknowledgement
-This repo used a lot of source code from [Faster-RCNN](https://github.com/rbgirshick/py-faster-rcnn)
+### Acknowledgment
+This repo borrows tons of code from
+- [affordanceNet](https://github.com/nqanh/affordance-net) by nqanh
 
 
 ### Contact
-If you have any questions or comments, please send us an email: `thanh-toan.do@adelaide.edu.au` and `anh.nguyen@iit.it`
+If you encounter any questions, please contact me at fujenchu[at]gatech[dot]edu
 
 
 ### Modifications
