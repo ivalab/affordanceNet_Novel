@@ -1,0 +1,5 @@
+(define (problem handy_vision)
+    (:domain handy)
+    (:objects arm )
+    (:init (free arm) )
+    (:goal (and (contains bowl knife))))

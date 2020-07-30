@@ -1,0 +1,2 @@
+objects: plate spoon bowl 
+init: (GRASPABLE_plate) (CONTAINABLE_plate) (SUPPORTABLE_plate) (GRASPABLE_spoon) (CONTAINABLE_spoon) (GRASPABLE_bowl) (CONTAINABLE_bowl) (contains_plate_spoon)
