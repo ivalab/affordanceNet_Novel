@@ -86,6 +86,7 @@ cd $AffordanceNet_ROOT
 1. Install [Fast-Downward](https://github.com/danfis/fast-downward) for PDDL.
 2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
 3. Install [ivaHandy](https://github.com/ivaROS/ivaHandy) for our Handy robot.
+4. Compile [handy_experiment](https://github.com/ivaROS/handy_experiment) for experiments.
 
 1.1. run objectness affordance saver
 ```
