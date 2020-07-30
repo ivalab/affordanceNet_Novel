@@ -105,9 +105,31 @@ roslaunch freenect_launch freenect.launch depth_registration:=true
 ```
 2.3. run PDDL
 ```
-cd affordance-net/scripts
-python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py --sim
+cd $AffordanceNet_ROOT/scripts
+python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py
 ```
+
+Note you might need to:
+(1) modify camera parameters:
+```
+KINECT_FX = 494.042
+KINECT_FY = 490.682
+KINECT_CX = 330.273
+KINECT_CY = 247.443
+```
+(2) modify the relative translation from aruco tag to robot base:
+```
+obj_pose_3D.position.x = round(coords_3D[0], 2) + 0.20
+obj_pose_3D.position.y = round(coords_3D[1], 2) + 0.30
+obj_pose_3D.position.z = round(coords_3D[2], 2) - 0.13 
+```
+
+(3) modify a good range for your object scale:
+```
+(arr_rgb.shape[0] > 100 and arr_rgb.shape[1] > 100)
+```
+
+(4) modify the `args.sim` path for debug mode
 
 
 ### License
