@@ -84,8 +84,7 @@ cd $AffordanceNet_ROOT
 
 ### Physical Grasping with PDDL
 
-#### on Main PC
-1. run objectness affordance saver
+1.1. run objectness affordance saver
 ```
 cd projects/affordanceSeg/affordance-net-da/tools
 python demo_img_socket_noprocess_firstAff_kinect_LANDAN.py
@@ -96,32 +95,21 @@ cd projects/robotArm/aruco_tag/aruco_tag_saver
 python camera_demo_arucoTag_kinect.py
 ```
 
-2. move saved data to `/media/fujenchu/home3/data_shared/affordance/landan/AFFORDANCE` from `/media/fujenchu/home3/data_shared/affordance/landan/`
 
-3. share folder
-```
-sudo sevice smbd restart
-```
-
-#### on LANDAN PC
-1. run Handy
+2.1. run Handy (our robot, you may check our codebase and adjust yours)
 ```
 cd handy_ws
 ...
 roslaunch handy_experiment pickplace_pddl.launch
 ```
-2. run camera
+2.2. run camera
 ```
 roslaunch freenect_launch freenect.launch depth_registration:=true
 ```
-3. run PDDL
+2.3. run PDDL
 ```
 cd affordance-net/scripts
 python kinect_pddl_UMD_firstAffordance_objectness_nonprimary.py --sim
-```
-4. share folder
-```
-sudo mount -t cifs //143.215.144.24/data_shared /home/landan/data_shared -o username=fujenchu,password=fujenchu
 ```
 
 
