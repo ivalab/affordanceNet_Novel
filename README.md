@@ -87,6 +87,8 @@ cd $AffordanceNet_ROOT
 
 1.2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
 
+1.3. Install [Freenect](https://github.com/OpenKinect/libfreenect)
+
 1.3. Compile [ivaHandy](https://github.com/ivaROS/ivaHandy) in your ros workspace `handy_ws` for our Handy manipulator.
 
 1.4. Compile [handy_experiment](https://github.com/ivaROS/handy_experiment) in your ros workspace `handy_ws` for experiment codebase.
