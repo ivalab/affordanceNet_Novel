@@ -81,7 +81,7 @@ cd $AffordanceNet_ROOT
 
 
 
-### Physical Grasping with PDDL
+### Physical Manipulation with PDDL
 1.1. Install [Fast-Downward](https://github.com/danfis/fast-downward) for PDDL.
 
 1.2. Install [ROS](http://wiki.ros.org/ROS/Introduction).
