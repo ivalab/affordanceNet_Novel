@@ -1,4 +1,4 @@
-# AffordanceNet_DA
+# AffordanceNet_Novel
 This is the implementation of our RA-L work 'Toward Affordance Detection and Ranking on Novel Objects for Real-world Robotic Manipulation'. This paper presents a framework to detect and rank affordances of novel objects to assist with robotic manipulation tasks. The original arxiv paper can be found [here](https://ieeexplore.ieee.org/abstract/document/8770077).
 
 <p align="center">
