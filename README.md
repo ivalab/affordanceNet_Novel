@@ -35,7 +35,7 @@ If you find it helpful for your research, please consider citing:
 
 ### Demo
 
-1. Clone the AffordanceNet_DA repository into your `$AffordanceNet_Novel_ROOT` folder
+1. Clone the AffordanceNet_Novel repository into your `$AffordanceNet_Novel_ROOT` folder
 ```
 git clone https://github.com/ivalab/affordanceNet_Novel.git
 cd affordanceNet_Novel
